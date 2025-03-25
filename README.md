@@ -26,3 +26,5 @@
 * platformio.ini文件以ESP32-S3开发板为例，可替换为其他ESP32芯片系列
 * 因为加入了wifi批量数据传输和蓝牙压缩/解压缩功能，所以需要使用带有PSRAM的ESP32单板，否则不能正常运行
 * 12.48b和9.69b因为分别需要使用14根和7根数据线，与其他SPI标准的6根数据线屏幕不兼容，所以SPI管脚的定义在固件代码.h中单独定义，请特别注意
+* 请手工修改wifi_conf.h中的WIFI_SSID和WIFI_PASSWORD为你的2.4GHz wifi热点名称/密码
+* 因为platformio没有集成gzip库，所以需要手工添加ArduinoUZlib到你的\.pio\libdeps\`esp32-s3-devkitc-1`\目录下，这里的esp32-s3-devkit-1代表你的开发板类型
