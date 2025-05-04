@@ -19,6 +19,10 @@
 * 9.7 inch e-Paper (G)
 * 9.69 inch e-Paper (B)
 * [7.3 inch e-Paper (E)](https://www.waveshare.net/wiki/7.3inch_e-Paper_HAT_(E) "分辨率：800x480")
+* 4.37 inch e-Paper (B)
+* 1.54 inch e-Paper V2
+* 10.2 inch e-Paper (B)
+* 6.0 inch Parallel
 
 ***
 注意事项：
