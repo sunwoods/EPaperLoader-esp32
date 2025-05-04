@@ -24,6 +24,9 @@
 #include "epd_panel/epd9in7g.h"
 #include "epd_panel/EPD_9in69b.h"
 #include "epd_panel/epd7in3e.h"
+#include "epd_panel/epd4in37b.h"
+#include "epd_panel/epd10in2.h"
+#include "epd_panel/ED060KD1.h"
 
 /* Lut mono ------------------------------------------------------------------*/
 byte lut_full_mono[] =
@@ -41,6 +44,23 @@ byte lut_partial_mono[] =
     0x00, 0x00, 0x00, 0x00, 0x13, 0x14, 0x44, 0x12, 
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
+
+byte LUT_DATA[] = 
+{    //30 bytes
+    0x66,0x66,0x44,0x66,0xAA,0x11,
+    0x80,0x08,0x11,0x18,0x81,0x18,
+    0x11,0x88,0x11,0x88,0x11,0x88,
+    0x00,0x00,0xFF,0xFF,0xFF,0xFF,
+    0x5F,0xAF,0xFF,0xFF,0x2F,0x00
+}; 
+byte LUT_DATA_part[] =
+{  //30 bytes
+    0x10,0x18,0x18,0x28,0x18,0x18,
+    0x18,0x18,0x08,0x00,0x00,0x00,
+    0x00,0x00,0x00,0x00,0x00,0x00,
+    0x00,0x00,0x13,0x11,0x22,0x63,
+    0x11,0x00,0x00,0x00,0x00,0x00
+};   
 
 byte lut_vcom0[] = { 15, 0x0E, 0x14, 0x01, 0x0A, 0x06, 0x04, 0x0A, 0x0A, 0x0F, 0x03, 0x03, 0x0C, 0x06, 0x0A, 0x00 };
 byte lut_w    [] = { 15, 0x0E, 0x14, 0x01, 0x0A, 0x46, 0x04, 0x8A, 0x4A, 0x0F, 0x83, 0x43, 0x0C, 0x86, 0x0A, 0x04 };
@@ -157,6 +177,19 @@ void EPD_WaitUntilIdle_high()
 {
     //1: busy, 0: idle
     while(digitalRead(PIN_SPI_BUSY) == 1) delay(100);   
+}
+
+void EPD_WaitUntilIdle_high(int timeoutInMil) 
+{
+    //1: busy, 0: idle
+    int delay_time = 0;
+    while(digitalRead(PIN_SPI_BUSY) == 1) {
+        delay(100);
+        delay_time += 100;
+        if (delay_time > timeoutInMil) {
+            break;
+        }
+    }   
 }
 
 /* Send a one-argument command -----------------------------------------------*/
@@ -650,8 +683,10 @@ void(*EPD_dispLoad)();     // Pointer on a image data writting function
 /* Array of sets describing the usage of e-Papers ----------------------------*/
 EPD_dispInfo EPD_dispMass[] =
 {
-    { EPD_Init_1in54 , EPD_loadA, -1  , 0,         EPD_showA, "1.54 inch"   },// a 0
-    { EPD_Init_1in54b, EPD_loadB, 0x13, EPD_loadA, EPD_showB, "1.54 inch b" },// b 1
+    // { EPD_Init_1in54 , EPD_loadA, -1  , 0,      EPD_showA, "1.54 inch"   },// a 0
+    { EPD_Init_1in54_V1 , EPD_loadA, -1  , 0,      EPD_1IN54_Show_V1, "1.54 inch"   },// a 0
+    // { EPD_Init_1in54b, EPD_loadB, 0x13, EPD_loadA, EPD_showB, "1.54 inch b" },// b 1
+    { EPD_Init_1in54b, EPD_loadA, 0x13, EPD_loadA, EPD_showB, "1.54 inch b" },// b 1
     { EPD_Init_1in54c, EPD_loadA, 0x13, EPD_loadA, EPD_showB, "1.54 inch c" },// c 2
     { EPD_Init_2in13 , EPD_loadC, -1  , 0,         EPD_showA, "2.13 inch"   },// d 3
     { EPD_Init_2in13b, EPD_loadA, 0x13, EPD_loadA, EPD_showB, "2.13 inch b" },// e 4
@@ -694,8 +729,12 @@ EPD_dispInfo EPD_dispMass[] =
     { EPD_3IN52_Init,	    EPD_loadA,		-1,	    0,		        EPD_3IN52_Show,     "3.52 inch"     },// 41
     { EPD_2IN7_V2_Init,		EPD_loadA, 		-1  ,	0,				EPD_2IN7_V2_Show,	"2.7 inch V2"	},// 42
     { EPD_7IN3F_init,		EPD_loadG, 		-1  ,	0,				EPD_7IN3F_Show,	    "7.3 inch F"	},// 43
-    { EPD_12in48B_Init,		NULL, 	        0x13,	NULL,	        EPD_12in48B_Show,   "12.48 inch B V1"	},// 44
+    { EPD_12in48B_Init,		NULL, 	        0x13,	NULL,	        EPD_12in48B_Show,   "12.48 inch B"	},// 44
     { EPD_9IN7G_init,		EPD_loadA, 		-1  ,	0,	            EPD_9IN7G_Show,	    "9.7 inch G"	},// 45
     { EPD_9IN69B_Init,		EPD_loadA, 	    -1  ,	EPD_loadAFilp,	EPD_9IN69B_Show,	"9.69 inch B"	},// 46
     { EPD_7IN3E_init,		EPD_loadG, 		-1  ,	0,				EPD_7IN3E_Show,	    "7.3 inch E"	},// 47
+    { EPD_Init_4in37b,	    EPD_loadAFilp,	0x13,	EPD_loadAFilp,	EPD_4IN37B_Show,	"4.37 inch B"	},// 48
+    { EPD_Init_1in54_V2 ,   EPD_loadA,      -1  ,   0,              EPD_1IN54_Show_V2,  "1.54 inch V2"  },// 49
+    { EPD_10IN2B_Init ,     EPD_loadA,      0x26,   EPD_loadAFilp,  EPD_10IN2B_Show,    "10.2 inch B"   },// 50
+    { EPD_ED060KD1_init,	EPD_ED060KD1_Load, -1,	0,	            EPD_ED060KD1_Show,	"6.0 inch Parallel"	},// 51
 };

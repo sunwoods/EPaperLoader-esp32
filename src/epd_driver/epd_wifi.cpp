@@ -215,16 +215,18 @@ void EPDWifi::Web_EPD_Init(String arg_info) {
     deserializeJson(document, arg_info);
 
     EPD_dispIndex = document["epdInd"];
-    // temporarily compatible with web
-    if (EPD_dispIndex == 0) {
-        EPD_dispIndex = 44;
-    }
+    // // temporarily compatible with web
+    // if (EPD_dispIndex == 0) {
+    //     EPD_dispIndex = 44;
+    // }
 
     // 12.48 use specific pins initialization
     if (EPD_dispIndex == 44) {
         EPD_12in48b_initSPI();
     } else if (EPD_dispIndex == 46) {
         EPD_9IN69B_InitSPI();
+    } else if (EPD_dispIndex == 48) {
+        EPD_ED060KD1_InitMode(document["mode"]);
     } else {            
         EPD_SPISetCfg(document["din"], document["sck"], document["cs"], document["dc"], document["rst"], document["busy"]);
         EPD_initSPI();
@@ -234,6 +236,7 @@ void EPDWifi::Web_EPD_Init(String arg_info) {
     // Print log message: initialization of e-Paper (e-Paper's type)
     Serial.printf("EPD_dispIndex %d", EPD_dispIndex);
     Serial.printf("EPD %s", EPD_dispMass[EPD_dispIndex].title);
+    Serial.println();
 
     // Initialization
     EPD_dispInit();
@@ -341,7 +344,7 @@ void EPDWifi::Web_EPD_LoadA(String arg_info) {
     loaded_size += Buff__bufInd;
     Serial.printf("Buff__bufInd=%d, loaded_size=%d\n", Buff__bufInd, loaded_size);
 
-    Serial.println("LOADA");
+    // Serial.println("LOADA");
 
     // 12.48 & 9.69 use specific pins initialization
     if (EPD_dispIndex == 44) {

@@ -61,6 +61,9 @@ extern int PIN_SPI_DC;
 extern byte lut_full_mono[];
 extern byte lut_partial_mono[];
 
+extern byte LUT_DATA[];
+extern byte LUT_DATA_part[];
+
 extern byte lut_vcom0[];
 extern byte lut_w    [];
 extern byte lut_b    [];

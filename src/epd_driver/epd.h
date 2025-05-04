@@ -52,7 +52,7 @@ void EPD_WaitUntilIdle();
 
 /* Waiting the e-Paper is ready for further instructions ---------------------*/
 void EPD_WaitUntilIdle_high();
-
+void EPD_WaitUntilIdle_high(int timeoutInMil);
 /* Send a one-argument command -----------------------------------------------*/
 void EPD_Send_1(byte c, byte v1);
 

@@ -77,4 +77,6 @@ extern void EPD_9IN69B_SendCommandM(UBYTE Reg);
 extern void EPD_9IN69B_SendDataM(UBYTE Data);
 extern void EPD_9IN69B_SendCommandS(UBYTE Reg);
 extern void EPD_9IN69B_SendDataS(UBYTE Data);
+
+extern void EPD_ED060KD1_InitMode(int mode);
 #endif

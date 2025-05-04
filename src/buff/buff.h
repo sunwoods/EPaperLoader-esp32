@@ -15,7 +15,8 @@
 #include <ArduinoJson.h>
 
 /* Size, current position index and byte array of the buffer -----------------*/
-#define Buff__SIZE 800*480  // may need increase
+// #define Buff__SIZE 800*480  // may need increase
+#define Buff__SIZE 1920*1080 // increase for ES108FC
 
 #define JSON_BUFF_SIZE 256
 

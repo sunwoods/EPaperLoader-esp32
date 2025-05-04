@@ -34,13 +34,13 @@
 #define _EPD_9IN69B_H_
 
 // use 7 pins, specially defined here
-#define EPD_MOSI_PIN 18
-#define EPD_SCK_PIN  17
-#define EPD_CS_PIN   16
-#define EPD_DC_PIN   15
-#define EPD_RST_PIN  14
-#define EPD_BUSY_PIN 13
-#define EPD_CS_S_PIN 12
+#define EPD_MOSI_PIN 3
+#define EPD_SCK_PIN  46
+#define EPD_CS_PIN   9
+#define EPD_DC_PIN   10
+#define EPD_RST_PIN  11
+#define EPD_BUSY_PIN 12
+#define EPD_CS_S_PIN 13
 
 // Display resolution
 #define EPD_9IN69B_WIDTH       960
