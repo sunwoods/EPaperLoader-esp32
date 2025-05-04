@@ -225,7 +225,7 @@ void EPDWifi::Web_EPD_Init(String arg_info) {
         EPD_12in48b_initSPI();
     } else if (EPD_dispIndex == 46) {
         EPD_9IN69B_InitSPI();
-    } else if (EPD_dispIndex == 48) {
+    } else if (EPD_dispIndex == 51) {
         EPD_ED060KD1_InitMode(document["mode"]);
     } else {            
         EPD_SPISetCfg(document["din"], document["sck"], document["cs"], document["dc"], document["rst"], document["busy"]);
